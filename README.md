@@ -23,18 +23,17 @@ has_many : orders
 |user                    |references|null: false, foreign_key: true     |
 |item_name               |string    |null: false                        |
 |item_info               |text      |null: false                        |
-|items_detail            |text      |null: false                        |
-|item_category           |string    |null: false                        |
-|item_sales_status       |string    |null: false                        |
-|item_shipping_fee_status|string    |null: false                        |
-|prefecture              |integer   |null: false                        |
-|item_scheduled_delivery |string    |null: false                        |
-|item_price              |string    |null: false                        |
+|category_id             |integer   |null: false                        |
+|sales_status_id         |integer   |null: false                        |
+|shipping_fee_status_id  |integer   |null: false                        |
+|prefecture_id           |integer   |null: false                        |
+|scheduled_delivery_id   |integer   |null: false                        |
+|item_price              |integer   |null: false                        |
 
 
 ### Association
 belongs_to :user
-has_one : order
+has_one :order
 
 ## orders　　購入記録テーブル
 |Column                 |Type       |Options                            |
@@ -47,17 +46,17 @@ has_one : order
 ### Association
 belongs_to :user
 belongs_to :item
+has_one :shipping_address
 
 
-## shipping_address　　　発送先情報テーブル
+## shipping_addresses　　　発送先情報テーブル
 |Column                 |Type       |Options                           |
-|user                   |references |null: false, foreign_key: true    |
-|item                   |references |null: false, foreign_key: true    |
+|order                  |references |null: false, foreign_key: true    |
 |postal_code            |string     |null: false                       |
-|prefecture             |integer    |null: false                       |
+|prefecture_id          |integer    |null: false                       |
 |city                   |string     |null: false                       |
-|addresses              |string     |                                  |
-|building               |string     |null: false                       |
+|addresses              |string     |null: false                       |
+|building               |string     |                                  |
 |phone_number           |string     |null: false                       |
 
 
