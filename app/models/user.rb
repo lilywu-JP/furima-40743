@@ -8,6 +8,7 @@ class User < ApplicationRecord
   validates :password, length: { minimum: 6 },
                        format: { with: /\A(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+\z/, message: 'パスワードは半角英字と数字の両方を含めてください' },
                        if: -> { encrypted_password.present? }
+  validates :nickname, presence: true
   validates :last_name, presence: true,
                         format: { with: /\A[ぁ-んァ-ン一-龥々]+\z/, message: '全角（漢字・ひらがな・カタカナ）での入力してください' }
   validates :first_name, presence: true,
