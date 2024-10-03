@@ -25,6 +25,12 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include("Item name can't be blank")
       end
 
+      it '商品説明未記載の場合投稿できない' do
+        @item.item_info = ''
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Item info can't be blank")
+      end
+
       it 'カテゴリ未記載の場合投稿できない' do
         @item.category_id = '1'
         @item.valid?
