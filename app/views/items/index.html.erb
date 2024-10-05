@@ -129,7 +129,7 @@
     <ul class='item-lists'>
 
       <% if @items.present? %>
-      <% @items.sort_by { |item| -item.created_at.to_i }.each do |item| %>
+      <% @items.each do |item| %>
       <li class='list'>
         <%= link_to "#" do %>
         <div class='item-img-content'>
