@@ -1,7 +1,7 @@
 class ItemsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :edit, :update]
-  before_action :set_item, only: [:show, :edit, :update]
-  before_action :check_item_owner, only: [:edit, :update]
+  before_action :authenticate_user!, only: [:new, :edit, :update, :destroy]
+  before_action :set_item, only: [:show, :edit, :update, :destroy]
+  before_action :check_item_owner, only: [:edit, :update, :destroy]
   def index
     @items = Item.order(created_at: :desc)
   end
@@ -33,6 +33,11 @@ class ItemsController < ApplicationController
     end
   end
 
+  def destroy
+    @item.destroy
+    redirect_to root_path
+  end
+
   private
 
   def item_params
@@ -45,7 +50,7 @@ class ItemsController < ApplicationController
   end
 
   def check_item_owner
-    return unless current_user.id != @item.user_id
+    return unless current_user.id != @item.user.id
 
     redirect_to root_path, alert: '他の商品情報は編集できません。'
     # elsif @item.sold_out?
