@@ -50,10 +50,11 @@ class ItemsController < ApplicationController
   end
 
   def check_item_owner
-    return unless current_user.id != @item.user.id
+    if current_user.id != @item.user.id
 
-    redirect_to root_path, alert: '他の商品情報は編集できません。'
-    # elsif @item.sold_out?
-    # redirect_to root_path, alert: "売却済み商品は編集できません。"
+      redirect_to root_path, alert: '他の商品情報は編集できません。'
+    elsif @item.sold_out?
+      redirect_to root_path, alert: '売却済み商品は編集できません。'
+    end
   end
 end
