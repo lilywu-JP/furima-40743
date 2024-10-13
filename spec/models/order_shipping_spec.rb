@@ -55,8 +55,20 @@ RSpec.describe OrderShipping, type: :model do
         expect(@order_shipping.errors.full_messages).to include("Phone number can't be blank")
       end
 
-      it '電話番号は、10桁以上11桁以内の半角数値のみ保存可能なこと' do
-        @order_shipping.phone_number = 123_456_789
+      it '電話番号は9桁以下では購入できない' do
+        @order_shipping.phone_number = '123456789'
+        @order_shipping.valid?
+        expect(@order_shipping.errors.full_messages).to include('Phone number は10桁以上11桁以内の半角数字で入力して下さい')
+      end
+
+      it '電話番号は12桁以上では購入できない' do
+        @order_shipping.phone_number = '123456789123'
+        @order_shipping.valid?
+        expect(@order_shipping.errors.full_messages).to include('Phone number は10桁以上11桁以内の半角数字で入力して下さい')
+      end
+
+      it '電話番号に半角数字以外が含まれている場合は購入できない' do
+        @order_shipping.phone_number = '12345６7891'
         @order_shipping.valid?
         expect(@order_shipping.errors.full_messages).to include('Phone number は10桁以上11桁以内の半角数字で入力して下さい')
       end
@@ -65,6 +77,18 @@ RSpec.describe OrderShipping, type: :model do
         @order_shipping.token = nil
         @order_shipping.valid?
         expect(@order_shipping.errors.full_messages).to include("Token can't be blank")
+      end
+
+      it 'userが紐付いていなければ購入できない' do
+        @order_shipping.user_id = ''
+        @order_shipping.valid?
+        expect(@order_shipping.errors.full_messages).to include("User can't be blank")
+      end
+
+      it 'itemが紐付いていなければ購入できない' do
+        @order_shipping.item_id = ''
+        @order_shipping.valid?
+        expect(@order_shipping.errors.full_messages).to include("Item can't be blank")
       end
     end
   end
